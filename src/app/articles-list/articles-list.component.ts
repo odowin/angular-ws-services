@@ -9,10 +9,10 @@ import { ArticleService } from '../common/article.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './articles-list.component.html',
-  styleUrl: './articles-list.component.css',
+  styleUrls: ['./articles-list.component.css'],  // Corrected typo here
 })
 export class ArticlesListComponent {
-  // Modèle de donnée d'un article et initialisation du modèle de donnée
+  // Model of an article and initialization
   article: Article = {
     id: '',
     name: '',
@@ -20,23 +20,27 @@ export class ArticlesListComponent {
     contact: '',
     stock: '',
   };
-  // Liste des articles disponibles
-  articles!: Article[];
 
+  // List of available articles
+  articles: Article[] = [];
+
+  // Injecting the article service
   private articleService = inject(ArticleService);
 
   ngOnInit() {
-    // Récupération des articles à partir du local storage
+    // Fetching articles from the service
     this.articles = this.articleService.getFromLocalStorage();
   }
 
-  //Création d'un nouvel article et ajout au tableau
+  // Creating a new article and adding it to the list
   createArticle(article: Article) {
-    // Ajout de l'article à la liste des articles
+    // Using ArticleService to create and save article
     this.articleService.createArticle(article);
+    
+    // Fetch the updated list of articles
     this.articles = this.articleService.getFromLocalStorage();
 
-    // Réinitialisation du modèle
+    // Resetting the article model
     this.article = {
       id: '',
       name: '',
@@ -46,12 +50,12 @@ export class ArticlesListComponent {
     };
   }
 
-  // Suppression d'un article
+  // Deleting an article
   deleteArticle(article: Article) {
-    // Récupération de l'index de l'article à supprimer
-    const index = this.articles.findIndex((x) => x.id === article.id);
-    // Suppression de l'article du tableau
-    this.articles.splice(index, 1);
-    localStorage.setItem('articles', JSON.stringify(this.articles));
+    // Using ArticleService to delete the article
+    this.articleService.deleteArticle(article);
+
+    // Fetch the updated list of articles
+    this.articles = this.articleService.getFromLocalStorage();
   }
 }

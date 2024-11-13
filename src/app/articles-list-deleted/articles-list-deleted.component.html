@@ -2,11 +2,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">name</th>
-      <th scope="col">price</th>
-      <th scope="col">stock</th>
-      <th scope="col">contact</th>
-      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Contact</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -17,11 +17,11 @@
       <td>{{ article.stock }}</td>
       <td>{{ article.contact }}</td>
       <td>
-        <button type="submit" class="btn btn-danger" (click)="restore()">
-          <i class="fas fa-undo"></i>
+        <!-- Pass the article object to the restore method -->
+        <button type="button" class="btn btn-danger" (click)="restore(article)">
+          <i class="fas fa-undo"></i> Restore
         </button>
       </td>
     </tr>
   </tbody>
 </table>
-

@@ -1,26 +1,33 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Article } from '../common/article';
+import { ArticleService } from '../common/article.service';
 
 @Component({
   selector: 'app-articles-list-deleted',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './articles-list-deleted.component.html',
-  styleUrl: './articles-list-deleted.component.css'
+  styleUrls: ['./articles-list-deleted.component.css']
 })
 export class ArticlesListDeletedComponent {
-  // Liste des articles non disponnible
-  articlesDeleted!: Article[];
+  // Liste des articles supprimés
+  articlesDeleted: Article[] = [];
+
+  private articleService = inject(ArticleService);
 
   ngOnInit() {
-    // TODO récupération des articles non disponible à partir d'un service
+    // Récupération des articles supprimés à partir du service
+    this.articlesDeleted = this.articleService.getDeletedArticlesFromStorage();
   }
 
   /**
    * Restaure un article supprimé
    */
-  restore() {
-    // TODO restauration de l'article à partir d'un service
+  restore(article: Article) {
+    // Utilisation du service pour restaurer l'article
+    this.articleService.restoreArticle(article);
+    // Mise à jour de la liste des articles supprimés
+    this.articlesDeleted = this.articleService.getDeletedArticlesFromStorage();
   }
 }
